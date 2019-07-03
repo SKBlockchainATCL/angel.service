@@ -12,22 +12,25 @@
 
 #### Design Detail
 
-* `service/programs/recent?count={cnt}`
+##### List recent service programs
 
-  | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
-  | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
-  | `count` | The number of programs to list | integer | [`1`, `20`] | No | `10`  |   |
+* **`service/programs/recent?count={cnt}`**
+  
+    | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
+    | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
+    | `count` | The number of programs to list | integer | [`1`, `20`] | No | `10`  |   |
 
+##### List or search service programs
   
-* `service/programs?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}`
+* **`service/programs?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}`**
   
-  | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
-  | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
-  | `from` | Starting date for the programs to list | string | `yyyyMMdd` form | No |   |   |
-  | `to`   | Ending date for the programs to list   | string | `yyyyMMdd` form | No |   |   |
-  | `title` | Search term for the program title     | string |            | No |   |   |
-  | `pageSize` |                                    | integer | [`1`, `20`]   | No | `10` |   |
-  | `pageNo`   |                                    | integer | `-1` \| [`1`, ] | No | `1` |   |
+    | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
+    | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
+    | `from` | Starting date for the programs to list | string | `yyyyMMdd` form | No |   |   |
+    | `to`   | Ending date for the programs to list   | string | `yyyyMMdd` form | No |   |   |
+    | `title` | Search term for the program title     | string |            | No |   |   |
+    | `pageSize` |                                    | integer | [`1`, `20`]   | No | `10` |   |
+    | `pageNo`   |                                    | integer | `-1` \| [`1`, ] | No | `1` |   |
     
     * When `title` is not specified, the list would be orderted by program's start date decreasingly
     * When `title` is specified, the list would be ordered by relevance rank decreasingly.
@@ -35,16 +38,18 @@
     * Altenatives
         * `service/programs/keyworded/{search}?from={from}&to={to}&pageSize={size}&pageNo={no}`
 
-* `service/entryPosts?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`
+##### List or search service program entry posts
 
-  | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
-  | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
-  | `from` | Starting date for the entry posts to list | string | `yyyyMMdd` form | No |   |   |
-  | `to`   | Ending date for the entry posts to list   | string | `yyyyMMdd` form | No |   |   |
-  | `by`   | The user who writes the entry posts to list  | string |            | No |   |   |
-  | `pageSize` |                                    | integer | [`1`, `20`]    | No | `10`  |   |
-  | `pageNo`   |                                    | integer | `-1` or [`1`, ] | No  | `1` |   |
-  | `sort`     | Sort critera                       | string  | `postedAt` \| `postedAt:desc` \| `postedAt:asc` | No | `postedAt:desc`  |    |
+* **`service/entryPosts?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`**
+
+    | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
+    | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
+    | `from` | Starting date for the entry posts to list | string | `yyyyMMdd` form | No |   |   |
+    | `to`   | Ending date for the entry posts to list   | string | `yyyyMMdd` form | No |   |   |
+    | `by`   | The user who writes the entry posts to list  | string |            | No |   |   |
+    | `pageSize` |                                    | integer | [`1`, `20`]    | No | `10`  |   |
+    | `pageNo`   |                                    | integer | `-1` or [`1`, ] | No  | `1` |   |
+    | `sort`     | Sort critera                       | string  | `postedAt` \| `postedAt:desc` \| `postedAt:asc` | No | `postedAt:desc`  |    |
 
     * When both `from` and `to` are not specified, there's no restcition on the posted date for the entry posts to list.
     * When only `from` is specified, entry posts from the specified date upto now would be listed.
@@ -52,20 +57,21 @@
     * When `sort` parameter is not specified, the list would be ordered by 'postedAt' field decreasingly.
     * For `sort` parater, 'postedAt' is equal to 'postedAt:desc'
 
-* `service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`
+##### List or search service program entry posts by a specific user
 
-  | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
-  | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
-  | `userId`  | The user who writes the entry posts to list  | string |            | Yes |   |   |
-  | `from` | Starting date for the entry posts to list | string | `yyyyMMdd` form | No |   |   |
-  | `to`   | Ending date for the entry posts to list   | string | `yyyyMMdd` form | No |   |   |
-  | `pageSize` |                                    | integer | [`1`, `20`]       | No | `10`  |   |
-  | `pageNo`   |                                    | integer | `-1` \| [`1`, ] | No  | `1`  |   |
-  | `sort`     | Sort critera                       | string  | `postedAt` \| `postedAt:desc` \| `postedAt:asc` | No | `postedAt:desc`  |    |
+* **`service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`**
+
+    | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
+    | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
+    | `userId`  | The user who writes the entry posts to list  | string |            | Yes |   |   |
+    | `from` | Starting date for the entry posts to list | string | `yyyyMMdd` form | No |   |   |
+    | `to`   | Ending date for the entry posts to list   | string | `yyyyMMdd` form | No |   |   |
+    | `pageSize` |                                    | integer | [`1`, `20`]       | No | `10`  |   |
+    | `pageNo`   |                                    | integer | `-1` \| [`1`, ] | No  | `1`  |   |
+    | `sort`     | Sort critera                       | string  | `postedAt` \| `postedAt:desc` \| `postedAt:asc` | No | `postedAt:desc`  |    |
 
     * Alternatives
         * `service/entryPosts?from={from}&to={to}&by={userId}&pageSize={size}&pageNo={no}&sort={fields}`
-  
 
 #### References
 
