@@ -1,22 +1,24 @@
-### REST API Design
+## REST API Design
 
-   | Resource | API | Method | URL | Remark |
-   | -------- | --- | :----: | --- | ------ |
-   | ServiceProgram          | List recent service programs             | `GET`  | `service/programs/recent?count={cnt}` | `N : max(n)` |
-   |                         | List or search service programs          | `GET`  | `service/programs?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |
-   |                         | List or search open service programs     | `GET`  | `service/programs/open?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |
-   |                         | List or search service programs in process | `GET` | `service/programs/started?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |
-   |                         | List or search service programs reivewed   | `GET` | `service/programs/reviwed?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |
-   |                         | Get a service program                    | `GET`  | `service/programs/{programId}` |   |
-   | ServiceProgramEntry     | List entries for a service program       | `GET`  | `service/programs/{programId}/entries?sort={fields}&pageSize={size}&pageNo={no}` |   |
-   | ServiceProgramEntryPost | List or search service program entry posts | `GET` | `service/entryPosts?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}` |
-   |                         | List or search service program entry posts by a specific user | `GET` | `service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}` |
-   |                         | Add a new 'like' for a entry post        | `POST` | `service/entryPosts/{postId}/likes` | 
-   |                         | Add a new service program entry post     | `POST` | `service/entryPosts/`            |              |
+   | Resource | API | Method | URL | Privileged | Remark |
+   | -------- | --- | :----: | --- | ---------- | ------ |
+   | ServiceProgram          | List recent service programs             | `GET`  | `service/programs/recent?count={cnt}` |    | `N : max(n)` |
+   |                         | List or search service programs          | `GET`  | `service/programs?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | List or search open service programs     | `GET`  | `service/programs/open?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | List or search service programs in process | `GET` | `service/programs/started?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | List or search service programs reivewed   | `GET` | `service/programs/reviwed?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | Get a service program                    | `GET`  | `service/programs/{programId}` |   |   |
+   | ServiceProgramEntry     | List entries of a service program       | `GET`  | `service/programs/{programId}/entries?sort={fields}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | Add service program entry for current session  | `POST` | `service/programs/{programId}/entries/me`  |   |   |
+   |                         | Add service program entry for the specified user | `POST` | `service/programs/{programId}/entries/belongTo/{userId}` | Yes |   |
+   | ServiceProgramEntryPost | List or search service program entry posts | `GET` | `service/entryPosts?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}` |   |   |
+   |                         | List or search service program entry posts by a specific user | `GET` | `service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}` |   |   |
+   |                         | Add a new 'like' for a entry post        | `POST` | `service/entryPosts/{postId}/likes` |   |   |
+   |                         | Add a new service program entry post     | `POST` | `service/entryPosts/` |   |   |
 
-#### Design Detail
+### Design Detail
 
-##### List recent service programs
+#### List recent service programs
 
 * **`GET service/programs/recent?count={cnt}`**
 
@@ -29,7 +31,7 @@
     | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
     | `count` | The number of programs to list | integer | [`1`, `20`] | No | `10`  |   |
 
-##### List or search service programs
+#### List or search service programs
   
 * **`GET service/programs?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}`**
 
@@ -50,7 +52,7 @@
     * When `title` is specified, the list would be ordered by relevance rank decreasingly.
 
 
-##### Get a service program
+#### Get a service program
 
 * **`GET service/programs/{programId}`**
 
@@ -65,7 +67,7 @@
     `programId`, `title`, `startAt`, `endAt`, `status`, `details`, `review`, `programReqId`, `coordiId`
 
 
-##### List or search service program entry posts
+#### List or search service program entry posts
 
 * **`GET service/entryPosts?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`**
 
@@ -86,7 +88,7 @@
     * When `sort` parameter is not specified, the list would be ordered by 'postedAt' field decreasingly.
     * For `sort` parater, 'postedAt' is equal to 'postedAt:desc'
 
-##### List or search service program entry posts by a specific user
+#### List or search service program entry posts by a specific user
 
 * **`GET service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}`**
 
@@ -104,7 +106,18 @@
     | `pageNo`   |                                    | integer | `-1` \| [`1`, ] | No  | `1`  |   |
     | `sort`     | Sort critera                       | string  | `postedAt` \| `postedAt:desc` \| `postedAt:asc` | No | `postedAt:desc`  |    |
 
-#### References
+#### Add a new service program entry post
+
+* `POST service/entryPosts/`
+
+* Input
+
+    | Parameter | Description | Datatype | Value Space | Is Mandatory | Default | Remarks |
+    | --------- | ----------- | -------- | ----------- | ------------ | ------- | ------- |
+    | 
+
+
+### References
 
 * [Representational state transfer (on Wikipedia)](https://en.wikipedia.org/wiki/Representational_state_transfer)
 * [Google Cloud APIs API Design Guide](https://cloud.google.com/apis/design/)
