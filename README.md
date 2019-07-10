@@ -7,7 +7,7 @@
    |                         | List or search open service programs     | `GET`  | `service/programs/open?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
    |                         | List or search service programs in process | `GET` | `service/programs/started?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
    |                         | List or search service programs reivewed   | `GET` | `service/programs/reviwed?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
-   |                         | Get a service program                    | `GET`  | `service/programs/{programId}` |   |   |
+   |                         | Find a service program                    | `GET`  | `service/programs/{programId}` |   |   |
    | ServiceProgramEntry     | List entries of a service program       | `GET`  | `service/programs/{programId}/entries?sort={fields}&pageSize={size}&pageNo={no}` |   |   |
    |                         | Add service program entry for current session  | `POST` | `service/programs/{programId}/entries/belongToMe`  |   |   |
    |                         | Add service program entry for the specified user | `POST` | `service/programs/{programId}/entries/belongTo/{userId}` | Yes |   |
