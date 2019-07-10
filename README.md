@@ -16,6 +16,8 @@
    |                         | Add a new 'like' for a entry post        | `POST` | `service/entryPosts/{postId}/likes` |   |   |
    |                         | Add a new service program entry post     | `POST` | `service/entryPosts/` | Yes  |   |
    |                         | Add a new service program entry post for current session | `POST` | `service/entryPosts/belongToMe` |   |   | 
+   | ServiceProgramRequest   | List or search service program requests  | `GET` | `service/programRequests?from={from}&to={to}&title={search}&pageSize={size}&pageNo={no}` |   |   |
+   |                         | Add a new service program request        | `POST` | `service/programRequests` |   |   |
 
 ### Design Detail
 
