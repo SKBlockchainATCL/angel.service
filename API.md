@@ -62,18 +62,25 @@
 * ServiceProgram / Add a new service program answering to a request
     * Method : `POST`
     * URL : `service/programs/answering/{requestId}`
+    * Input : 
+        * body / `title`
+        * body / `startAt`
+        * body / `endAt`
+        * body / `details`
     
 * ServiceProgramNoti / Notify an open service program to (interested ?) users
     * Method : `POST`
     * URL : `service/programs/{programId}/notifications/open`
     * Remarks :
-        * requires : the program's coordinator = current session
+        * requires : the program's coordinator == current session
     
 * ServiceProgramCloseNoti / Notify a servivce program closed to (interested or related ?) users
     * Method : `POST`
     * URL : `service/programs/{programId}/notifications/closed`
     * Remarks : 
-        * requires : the program's coordinator = current session
+        * requires : the program's coordinator == current session
+    * Questions
+        * When or how to close the service program.
         
 * ServiceProgram / Get a coordinator of the service program
     * Method : `GET`
@@ -82,8 +89,34 @@
 * ServiceProgram / Update the review of the service program
     * Method : `PUT`
     * URL : `service/programs/{programId}/`
+    * Input :
+        * body / `review`
 
-    
+* ServiceProgramEntry / Review a service program entry
+    * Method : `PUT`
+    * URL : `service/programs/{programId}/entries/{entryId}`
+    * Input :
+        * body / `comments`
+        * body / `grade`
 
+* ServiceProgramEntry / List or search my service program entries
+    * Method : `GET`
+    * URL : `service/programs/-/entries/belongToMe`
+    * Remarks : 
+        * imposes : the owner of the program entry = current session
+        * No one can search or access other user's program entries
     
+* ServiceProgramEntry / Find a single my service program entires
+    * Method : `GET`
+    * URL : `service/programs/-/entries/{entryId}`
+    * Remarks :
+        * requires : the owner of the program entry == current session
+
+* ServiceProgramEntry / Cancel my service program entry
+    * Method : `DELETE`
+    * URL : `service/programs/-/entries/{entryId}`
+    * Remarks :
+        * requires : the owner of the program entry == current session
+
+
     
