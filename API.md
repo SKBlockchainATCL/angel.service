@@ -119,4 +119,33 @@
         * requires : the owner of the program entry == current session
 
 
-    
+* EnteranceApplicant / List or search applicants to join the company or institue
+    * Method : `GET`
+    * URL : `service/organizations/{orgId}/applicants`
+    * Input : 
+        * query / `name`
+        * query / `birthday`
+        * query / `pageNo`
+        * query / `pageSize`
+
+    * Remarks :
+        * requires : the organization of current session == `orgId`
+        
+
+* ServiceProgramEntry / List or search a program entries by a certain user
+    * Method : `GET`
+    * URL : `service/programs/-/entries/belongTo/{userId}`
+    * Input :
+        * query / `pageNo`
+        * query / `pageSize`
+    * Remarks :
+        * requires :  user(userId).accessibleOrgs.inlcudes.org(currentSession.orgId)
+        
+* ServiceProgramEntry / Find a program entry
+    * Method : `GET`
+    * URL : `service/programs/-/entries/{entryId}`
+    * Remarks : 
+        * requires : entry(entryId).user.accessibleOrgs.includes.org(currentSession.orgId)
+
+        
+        
