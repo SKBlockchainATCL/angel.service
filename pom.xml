@@ -633,6 +633,11 @@
       <version>${springfox-swagger2.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-bean-validators</artifactId>
+      <version>${springfox-swagger2.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.web3j</groupId>
       <artifactId>core</artifactId>
       <version>${web3j.version}</version>

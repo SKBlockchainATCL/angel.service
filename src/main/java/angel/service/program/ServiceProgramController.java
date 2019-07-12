@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.ThreadSafe;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class ServiceProgramController{
       @RequestParam("endAt") @Nullable String endAt,
       @RequestParam("title") @Nullable String title,
       @RequestParam(name = "pageSize", defaultValue = PAGE_SIZE_DEFAULT_STRING) 
-        @Positive @Max(PAGE_SIZE_MAX) int pageSize,
+        @Min(1) @Max(PAGE_SIZE_MAX) int pageSize,
       @RequestParam(name = "pageNo", defaultValue = "1") @Positive int pageNo
   ){
     
