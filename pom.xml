@@ -51,8 +51,9 @@
     <!-- version for Maven plugins -->
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
-    <swagger-maven-plugin.version>2.0.8</swagger-maven-plugin.version>
-    <swagger-codegen-maven-plugin.version>3.0.9</swagger-codegen-maven-plugin.version> <!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-maven-plugin -->
+    <swagger-maven-plugin.version>3.1.8</swagger-maven-plugin.version> <!-- https://github.com/kongchen/swagger-maven-plugin -->
+    <swagger-codegen-maven-plugin.version>3.0.0-rc1</swagger-codegen-maven-plugin.version> <!-- https://mvnrepository.com/artifact/io.swagger/swagger-codegen-maven-plugin -->
+    <swagger-codegen-maven-plugin.v3.version>3.0.10</swagger-codegen-maven-plugin.v3.version> <!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-maven-plugin -->
     <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version> <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
     <findbugs-maven-plugin.version>3.0.4</findbugs-maven-plugin.version>
@@ -224,18 +225,71 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>io.swagger.core.v3</groupId>
+        <groupId>com.github.kongchen</groupId>
         <artifactId>swagger-maven-plugin</artifactId>
-        <configuration>
-          <outputFileName>openapi</outputFileName>
-          <outputPath>${project.build.directory}/generated</outputPath>
-          <outputFormat>JSONANDYAML</outputFormat>
-          <resourcePackages>
-            <package>angel.service</package>
-          </resourcePackages>
-          <prettyPrint>TRUE</prettyPrint>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <apiSources>
+                <apiSource>
+                  <springmvc>true</springmvc>
+                  <locations>
+                    <location>angel.service.program</location>
+                  </locations>
+                  <schemes>
+                    <scheme>http</scheme>
+                  </schemes>
+                  <basePath>/angel/</basePath>
+                  <info>
+                    <title>Swagger Maven Plugin Sample</title>
+                    <version>v1</version>
+                    <!-- use markdown here because I'm using markdown for output,
+                      if you need to use html or other markup language, you need to use your target language,
+                      and note escape your description for xml -->
+                    <description>
+                      This is a sample.
+                    </description>
+                  </info>
+                  <swaggerDirectory>${project.build.directory}/generated/swagger</swaggerDirectory>
+                  <swaggerFileName>api</swaggerFileName>
+                  <outputFormats>json,yaml</outputFormats>
+<!--                   <templatePath>${basedir}/src/templates/swagger/strapdown.html.hbs</templatePath> -->
+<!--                   <outputPath>${project.build.directory}/generated/swagger/api.html</outputPath> -->
+<!--                   <attachSwaggerArtifact>true</attachSwaggerArtifact> -->
+                  <modelConverters>io.swagger.validator.BeanValidator</modelConverters>
+                </apiSource>
+              </apiSources>
+            </configuration>
+          </execution>
+        </executions>
+
       </plugin>
+
+      <plugin>
+        <groupId>io.swagger.codegen.v3</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-rest-api-doc-v3</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.build.directory}/generated/swagger/api.json</inputSpec>
+              <language>html2</language>
+              <output>${project.build.directory}/generated/swagger/html2</output>
+              <generateApis>true</generateApis>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
     </plugins>
     <pluginManagement>
       <plugins>
@@ -264,40 +318,27 @@
         </plugin>
         <!-- sources -->
         <plugin>
-          <groupId>io.swagger.core.v3</groupId>
+          <groupId>com.github.kongchen</groupId>
           <artifactId>swagger-maven-plugin</artifactId>
           <version>${swagger-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <phase>compile</phase>
-              <goals>
-                <goal>resolve</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <!-- For more, refer followings
             https://github.com/swagger-api/swagger-codegen
             https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin
           -->
-          <groupId>io.swagger.codegen.v3</groupId>
+          <groupId>io.swagger</groupId>
           <artifactId>swagger-codegen-maven-plugin</artifactId>
           <version>${swagger-codegen-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>generate-rest-api-doc</id>
-              <phase>process-classes</phase>
-              <goals>
-                <goal>generate</goal>
-              </goals>
-              <configuration>
-                <inputSpec>${project.build.directory}/swagger.json</inputSpec>
-                <language>html2</language>
-                <output>${project.build.directory}/generated-sources/swagger/html2</output>
-              </configuration>
-            </execution>
-          </executions>
+        </plugin>
+        <plugin>
+          <!-- For more, refer followings
+            https://github.com/swagger-api/swagger-codegen/tree/3.0.0
+            https://github.com/swagger-api/swagger-codegen/tree/3.0.0/modules/swagger-codegen-maven-plugin
+          -->
+          <groupId>io.swagger.codegen.v3</groupId>
+          <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <version>${swagger-codegen-maven-plugin.v3.version}</version>
         </plugin>
         <!-- packaging -->
         <plugin>
@@ -502,6 +543,21 @@
                     </ignore>
                   </action>
                 </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>com.github.kongchen</groupId>
+                    <artifactId>swagger-maven-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>generate</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore>
+                      <message>wagger-maven-plugin (goal "generate") is ignored by m2e.</message>
+                    </ignore>
+                  </action>
+                </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
@@ -621,6 +677,11 @@
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
       <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-hibernate-validations</artifactId>
+      <version>1.5.22</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>

@@ -1,16 +1,10 @@
 package angel.service.program;
 
-import java.util.List;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.ThreadSafe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "ServiceProgram")
 public class ServiceProgramValue{
   
   
@@ -31,5 +25,16 @@ public class ServiceProgramValue{
   private String requestId;
   
   private String coordiId;
+  
+  @XmlElement(name = "id")
+  public String getId() {
+    return this.id;
+  }
+  
+  @XmlElement(name = "title")
+  public String getTitle() {
+    return this.title;
+  }
+  
 
 }
