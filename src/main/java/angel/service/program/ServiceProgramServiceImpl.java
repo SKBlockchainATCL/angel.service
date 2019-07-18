@@ -17,25 +17,35 @@ public class ServiceProgramServiceImpl implements ServiceProgramService{
 
 
   @Override
-  public ServiceProgramValue findServiceProgramById(@NotBlank String id, @Nullable ServiceProgramStatus[] statuses){
+  public ServiceProgramValue findServiceProgramById(
+    @NotBlank String id, 
+    @Nullable ServiceProgramStatus[] statuses){
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public List<ServiceProgramValue> findServicePrograms(String titleSearchKeyword, ServiceProgramStatus[] statuses, LocalDate endAfter, LocalDate startBefore,
-      @Positive int pageSize, @Positive int pageNo){
+  public List<ServiceProgramValue> findServicePrograms(
+    String titleSearchKeyword, 
+    ServiceProgramStatus[] statuses, 
+    LocalDate startAfter, 
+    LocalDate startBefore,
+    @Positive int pageSize, 
+    @Positive int pageNo){
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public List<ServiceProgramValue> findServiceProgramsByCoordinator(@NotBlank String coordinatorId, String titleSearchKeyword, ServiceProgramStatus[] statuses,
-      LocalDate endAfter, LocalDate startBefore, @Positive int pageSize, @Positive int pageNo){
+  public List<ServiceProgramValue> findServiceProgramsByCoordinator(
+    @NotBlank String coordinatorId, 
+    String titleSearchKeyword, 
+    ServiceProgramStatus[] statuses,
+    LocalDate startAfter, 
+    LocalDate startBefore, 
+    @Positive int pageSize, 
+    @Positive int pageNo){
     // TODO Auto-generated method stub
     return null;
   }
-
-  
-  
 }

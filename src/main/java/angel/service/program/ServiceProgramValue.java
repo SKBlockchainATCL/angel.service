@@ -6,8 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "ServiceProgram")
 public class ServiceProgramValue{
-  
-  
+
   private String id;
   
   private String title;
@@ -36,5 +35,29 @@ public class ServiceProgramValue{
     return this.title;
   }
   
+  @XmlElement(name = "startAt")
+  public LocalDate getStartAt() {
+    return this.startAt;
+  }
 
+  @XmlElement(name = "endAt")
+  public LocalDate getEndAt() {
+    return this.endAt;
+  }
+  
+  @XmlElement(name = "status")
+  public ServiceProgramStatus getStatus() {
+    return this.status;
+  }
+  
+  @XmlElement(name = "details")
+  public String getDetails() {
+    return this.details;
+  }
+  
+  @XmlElement(name = "review")
+  public String getReview() {
+    return this.review;
+  }
+  
 }

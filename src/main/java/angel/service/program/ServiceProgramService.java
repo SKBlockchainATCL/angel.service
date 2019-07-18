@@ -29,7 +29,7 @@ public interface ServiceProgramService{
   List<ServiceProgramValue> findServicePrograms(
       @Nullable String titleSearchKeyword,
       @Nullable ServiceProgramStatus[] statuses,
-      @Nullable LocalDate endAfter,
+      @Nullable LocalDate startAfter,
       @Nullable LocalDate startBefore,
       @Nonnull @Positive int pageSize,
       @Nonnull @Positive int pageNo);
@@ -38,7 +38,7 @@ public interface ServiceProgramService{
       @NotBlank String coordinatorId,
       @Nullable String titleSearchKeyword,
       @Nullable ServiceProgramStatus[] statuses,
-      @Nullable LocalDate endAfter,
+      @Nullable LocalDate startAfter,
       @Nullable LocalDate startBefore,
       @Nonnull @Positive int pageSize,
       @Nonnull @Positive int pageNo);

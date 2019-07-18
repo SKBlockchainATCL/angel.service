@@ -46,7 +46,7 @@ public class ServiceProgramController{
   
   public static final String PAGE_SIZE_DEFAULT_STRING = "5";
   
-  @Autowired
+  //@Autowired
   private ServiceProgramService service;
 
   /**
@@ -58,12 +58,12 @@ public class ServiceProgramController{
   @GetMapping @Nonnull
   @ApiOperation(value="List or search service programs")
   public List<ServiceProgramValue> findServicePrograms(
-    @RequestParam(name = "from", required = false) @Nullable
-      @ApiParam("Starting date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate from,
-    @RequestParam(name = "to", required = false) @Nullable 
-      @ApiParam("Ending date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate to,
+    @RequestParam(name = "startAfter", required = false) @Nullable
+      @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
+    @RequestParam(name = "startBefore", required = false) @Nullable 
+      @ApiParam("service programs start before or at this date :  'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startBefore,
     @RequestParam(name = "title", required = false) @Nullable 
       @ApiParam("Search keyword for service program title")
       @Size(min = 1, max = 32) String title,
@@ -74,7 +74,7 @@ public class ServiceProgramController{
   ){
     
     List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, null, from, to, pageSize, pageNo);
+        title, null, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
@@ -82,12 +82,12 @@ public class ServiceProgramController{
   @GetMapping("/open") @Nonnull
   @ApiOperation(value="List or search service programs open but not closed")
   public List<ServiceProgramValue> findOpenServicePrograms(
-    @RequestParam(name = "from", required = false) @Nullable
-      @ApiParam("Starting date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "\\d{8}") LocalDate from,
-    @RequestParam(name = "to", required = false) @Nullable 
-      @ApiParam("Ending date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "\\d{8}") LocalDate to,
+    @RequestParam(name = "startAfter", required = false) @Nullable
+      @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
+      @Pattern(regexp = "\\d{8}") LocalDate startAfter,
+    @RequestParam(name = "startBefore", required = false) @Nullable 
+      @ApiParam("service programs start before or at this date :  'yyyyMMdd' format")
+      @Pattern(regexp = "\\d{8}") LocalDate startBefore,
     @RequestParam(name = "title", required = false) @Nullable 
       @ApiParam("Search keyword for service program title")
       @Size(min = 1, max = 32) String title,
@@ -98,7 +98,7 @@ public class ServiceProgramController{
   ){
     
     List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.OPEN }, from, to, pageSize, pageNo);
+        title, new ServiceProgramStatus[] { ServiceProgramStatus.OPEN }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
@@ -107,12 +107,12 @@ public class ServiceProgramController{
   @GetMapping("/started") @Nonnull
   @ApiOperation(value="List or search service programs started but not yet ended")
   public List<ServiceProgramValue> findStartedServicePrograms(
-    @RequestParam(name = "from", required = false) @Nullable
-      @ApiParam("Starting date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate from,
-    @RequestParam(name = "to", required = false) @Nullable 
-      @ApiParam("Ending date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate to,
+    @RequestParam(name = "startAfter", required = false) @Nullable
+      @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
+    @RequestParam(name = "startBefore", required = false) @Nullable 
+      @ApiParam("service programs start before or at this date :  'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startBefore,
     @RequestParam(name = "title", required = false) @Nullable 
       @ApiParam("Search keyword for service program title")
       @Size(min = 1, max = 32) String title,
@@ -122,7 +122,7 @@ public class ServiceProgramController{
       @Min(1) int pageNo
   ){
     List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.STARTED }, from, to, pageSize, pageNo);
+        title, new ServiceProgramStatus[] { ServiceProgramStatus.STARTED }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
@@ -130,12 +130,12 @@ public class ServiceProgramController{
   @GetMapping("/completed") @Nonnull
   @ApiOperation(value="List or search completed service programs")
   public List<ServiceProgramValue> findCompletedServicePrograms(
-    @RequestParam(name = "from", required = false) @Nullable
-      @ApiParam("Starting date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate from,
-    @RequestParam(name = "to", required = false) @Nullable 
-      @ApiParam("Ending date of interval overlaps service programs to list in 'yyyyMMdd' format")
-      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate to,
+    @RequestParam(name = "startAfter", required = false) @Nullable
+      @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
+    @RequestParam(name = "startBefore", required = false) @Nullable 
+      @ApiParam("service programs start before or at this date :  'yyyyMMdd' format")
+      @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startBefore,
     @RequestParam(name = "title", required = false) @Nullable 
       @ApiParam("Search keyword for service program title")
       @Size(min = 1, max = 32) String title,
@@ -145,7 +145,7 @@ public class ServiceProgramController{
       @Min(1) int pageNo
   ){
     List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.REVIEWED }, from, to, pageSize, pageNo);
+        title, new ServiceProgramStatus[] { ServiceProgramStatus.REVIEWED }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
@@ -159,7 +159,7 @@ public class ServiceProgramController{
     return service.findServiceProgramById(id, null);
   }
   
-  @GetMapping("/{programId}") @Nullable
+  @GetMapping("/open/{programId}") @Nullable
   @ApiOperation(value="Find a open service program for the specified ID")
   public ServiceProgramValue findOpenServiceProgramById(    
    @PathVariable(name = "programId", required = true) 
