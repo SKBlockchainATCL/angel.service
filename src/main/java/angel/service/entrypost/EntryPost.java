@@ -6,25 +6,42 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class EntryPost {
 	public String id;
-	public String Contents;
+	public String contents;
 	public String photo1;
 	public String photo2;
 	public String photo3;
 	public String postedAt;
 	public int likes;
-	public int ServiceProgramId;
-	public int UserId;
-	public String getId() {
+	public int serviceProgramId;
+	public int userId;
+	
+	public EntryPost() {
+	  
+	}
+	public EntryPost(String id, String contents, String photo1, String photo2, String photo3, String postedAt, int likes, int serviceProgramId, int userId){
+    super();
+    this.id = id;
+    this.contents = contents;
+    this.photo1 = photo1;
+    this.photo2 = photo2;
+    this.photo3 = photo3;
+    this.postedAt = postedAt;
+    this.likes = likes;
+    this.serviceProgramId = serviceProgramId;
+    this.userId = userId;
+  }
+	
+  public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
 	public String getContents() {
-		return Contents;
+		return contents;
 	}
 	public void setContents(String contects) {
-		Contents = contects;
+	  contents = contects;
 	}
 	public String getPhoto1() {
 		return photo1;
@@ -57,16 +74,16 @@ public class EntryPost {
 		this.likes = likes;
 	}
 	public int getServiceProgramId() {
-		return ServiceProgramId;
+		return serviceProgramId;
 	}
 	public void setServiceProgramId(int serviceProgramId) {
-		ServiceProgramId = serviceProgramId;
+		serviceProgramId = serviceProgramId;
 	}
 	public int getUserId() {
-		return UserId;
+		return this.userId;
 	}
 	public void setUserId(int userId) {
-		UserId = userId;
+	  this.userId = userId;
 	}
 	
 	@Override
@@ -74,14 +91,14 @@ public class EntryPost {
 		
 		return new StringBuffer()
 				.append("id : " + id)
-				.append("Contents : " + Contents)
+				.append("contents : " + contents)
 				.append("photo1 : " + photo1)
 				.append("photo2 : " + photo2)
 				.append("photo3 : " + photo3)
 				.append("postedAt : " + postedAt)
 				.append("likes : " + likes)
-				.append("ServiceProgramId : " + ServiceProgramId)
-				.append("UserId : " + ServiceProgramId)
+				.append("ServiceProgramId : " + serviceProgramId)
+				.append("UserId : " + userId)
 				.toString();
 	}
 }

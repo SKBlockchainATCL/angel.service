@@ -4,35 +4,50 @@ contract EntryPostContract {
     
     struct EntryPost {
         
-        string id;
-        string contentsId;
-        string photoId1;
-        string photoId2;
-        string photoId3;
-        string postedAt;
-        int likes;
-        string serviceProgramId;
-        string userId;
+        bytes32 contentsId;
+        bytes32 photoId1;
+        bytes32 photoId2;
+        bytes32 photoId3;
+        bytes32 postedAt;
+        uint256 likes;
+        bytes32 serviceProgramId;
+        bytes32 userId;
         
     }
     
-    mapping(string => EntryPost) entryPosts;
+    mapping(bytes32 => EntryPost) entryPosts;
     
-    function getEntryPost(string memory id) view public returns(string memory) {
+    function getEntryPost(bytes32  hashId) view public 
+    returns( bytes32 
+            , bytes32 
+            , bytes32 
+            , bytes32 
+            , bytes32 
+            , uint256 
+            , bytes32 
+            , bytes32 ) {
+        EntryPost memory entry = entryPosts[hashId];
         
-        return (entryPosts[id].contentsId);
+        return ( entry.contentsId
+                ,entry.photoId1
+                ,entry.photoId2
+                ,entry.photoId3
+                ,entry.postedAt
+                ,entry.likes
+                ,entry.serviceProgramId
+                ,entry.userId);
         
     }
     
-   function setEntryPost(string memory id,
-        string memory contentsId,
-        string memory photoId1,
-        string memory photoId2,
-        string memory photoId3,
-        string memory postedAt,
-        int likes,
-        string memory serviceProgramId,
-        string memory userId) payable public {
+   function setEntryPost(bytes32 id,
+        bytes32 contentsId,
+        bytes32 photoId1,
+        bytes32 photoId2,
+        bytes32 photoId3,
+        bytes32 postedAt,
+        uint256 likes,
+        bytes32 serviceProgramId,
+        bytes32 userId) payable public {
 
         EntryPost memory entryPost;
         entryPost.contentsId = contentsId;
