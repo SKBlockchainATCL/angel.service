@@ -5,6 +5,8 @@
   <groupId>angel.service</groupId>
   <artifactId>angel.service.server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>svns</name>
+  <description>SVNS project</description>
 
   <!-- POM for Spring Boot 2.1 : https://docs.spring.io/spring-boot/docs/2.1.x/reference/htmlsingle/#getting-started-maven-installation -->
 
@@ -60,6 +62,10 @@
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
     <duplicate-finder-maven-plugin.version>1.2.1</duplicate-finder-maven-plugin.version>
     <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
+    <web3j-maven-plugin.version>4.2.0</web3j-maven-plugin.version>
+    <exec-maven-plugin>1.6.0</exec-maven-plugin>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <repositories>
@@ -194,8 +200,37 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-
-      <plugin>
+	  <plugin>
+		<groupId>org.web3j</groupId>
+		<artifactId>web3j-maven-plugin</artifactId>
+		<version>${web3j-maven-plugin.version}</version>
+		<configuration>
+			<packageName>angel.service.jsa</packageName>
+			<sourceDestination>src/main/java/generated</sourceDestination>
+			<nativeJavaType>true</nativeJavaType>
+			<outputFormat>java,bin</outputFormat>
+			<soliditySourceFiles>
+				<directory>src/main/solidity</directory>
+				<includes>
+					<include>*.sol</include>
+				</includes>
+			</soliditySourceFiles>
+			<outputDirectory>
+				<java>src/main/java</java>
+				<bin>src/bin/angel/service</bin>
+				<abi>src/abi/angel/service</abi>
+			</outputDirectory>
+			<contract>
+				<includes>
+					<include>EntryPostContract</include>
+				</includes>
+				<excludes>
+					<exclude>mortal</exclude>
+				</excludes>
+			</contract>
+		</configuration>
+	</plugin>
+	<plugin>
         <groupId>org.basepom.maven</groupId>
         <artifactId>duplicate-finder-maven-plugin</artifactId>
         <executions>
@@ -646,10 +681,14 @@
       <artifactId>config</artifactId>
       <version>${typesafe-config.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-webflux</artifactId>
+	</dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
