@@ -200,37 +200,37 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-	  <plugin>
-		<groupId>org.web3j</groupId>
-		<artifactId>web3j-maven-plugin</artifactId>
-		<version>${web3j-maven-plugin.version}</version>
-		<configuration>
-			<packageName>angel.service.jsa</packageName>
-			<sourceDestination>src/main/java/generated</sourceDestination>
-			<nativeJavaType>true</nativeJavaType>
-			<outputFormat>java,bin</outputFormat>
-			<soliditySourceFiles>
-				<directory>src/main/solidity</directory>
-				<includes>
-					<include>*.sol</include>
-				</includes>
-			</soliditySourceFiles>
-			<outputDirectory>
-				<java>src/main/java</java>
-				<bin>src/bin/angel/service</bin>
-				<abi>src/abi/angel/service</abi>
-			</outputDirectory>
-			<contract>
-				<includes>
-					<include>EntryPostContract</include>
-				</includes>
-				<excludes>
-					<exclude>mortal</exclude>
-				</excludes>
-			</contract>
-		</configuration>
-	</plugin>
-	<plugin>
+      <plugin>
+        <groupId>org.web3j</groupId>
+        <artifactId>web3j-maven-plugin</artifactId>
+        <version>${web3j-maven-plugin.version}</version>
+        <configuration>
+          <packageName>angel.service.jsa</packageName>
+          <sourceDestination>src/main/java/generated</sourceDestination>
+          <nativeJavaType>true</nativeJavaType>
+          <outputFormat>java,bin</outputFormat>
+          <soliditySourceFiles>
+            <directory>src/main/solidity</directory>
+            <includes>
+              <include>*.sol</include>
+            </includes>
+          </soliditySourceFiles>
+          <outputDirectory>
+            <java>src/main/java</java>
+            <bin>src/bin/angel/service</bin>
+            <abi>src/abi/angel/service</abi>
+          </outputDirectory>
+          <contract>
+            <includes>
+              <include>EntryPostContract</include>
+            </includes>
+            <excludes>
+              <exclude>mortal</exclude>
+            </excludes>
+          </contract>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.basepom.maven</groupId>
         <artifactId>duplicate-finder-maven-plugin</artifactId>
         <executions>
@@ -292,9 +292,9 @@
                   <swaggerDirectory>${project.build.directory}/generated/swagger</swaggerDirectory>
                   <swaggerFileName>api</swaggerFileName>
                   <outputFormats>json,yaml</outputFormats>
-<!--                   <templatePath>${basedir}/src/templates/swagger/strapdown.html.hbs</templatePath> -->
-<!--                   <outputPath>${project.build.directory}/generated/swagger/api.html</outputPath> -->
-<!--                   <attachSwaggerArtifact>true</attachSwaggerArtifact> -->
+                  <!-- <templatePath>${basedir}/src/templates/swagger/strapdown.html.hbs</templatePath> -->
+                  <!-- <outputPath>${project.build.directory}/generated/swagger/api.html</outputPath> -->
+                  <!-- <attachSwaggerArtifact>true</attachSwaggerArtifact> -->
                   <modelConverters>io.swagger.validator.BeanValidator</modelConverters>
                 </apiSource>
               </apiSources>
@@ -681,14 +681,14 @@
       <artifactId>config</artifactId>
       <version>${typesafe-config.version}</version>
     </dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-webflux</artifactId>
-	</dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
