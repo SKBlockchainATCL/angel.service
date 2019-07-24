@@ -27,7 +27,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 @SpringBootApplication
 // @EnableSwagger2
 @ComponentScan(basePackageClasses = {ServiceProgramController.class})
-@Import({BeanValidatorPluginsConfiguration.class})
+@Import({BeanValidatorPluginsConfiguration.class, 
+  RedisConfig.class})
 public class Application{
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
