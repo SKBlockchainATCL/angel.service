@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface IEntryPostRepository extends ReactiveMongoRepository<EntryPost, Integer>{
+public interface EntryPostRepository extends ReactiveMongoRepository<EntryPost, Integer>{
 
   Flux<EntryPost> findById(final String name);
 

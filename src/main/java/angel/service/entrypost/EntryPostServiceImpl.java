@@ -16,7 +16,7 @@ public class EntryPostServiceImpl implements EntryPostService{
   private EntryPostContract entryPostContract;
 
   @Autowired
-  private IEntryPostRepository entryPostRepository;
+  private EntryPostRepository entryPostRepository;
 
   //string : 20190717skyang
   //hashTo : e8ebe9fb4ec36fd8edeafb4d7db1fe978d3e507bfb55eded13d5cce6f78cb214
