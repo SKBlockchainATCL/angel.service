@@ -1,4 +1,4 @@
-package angel.service.entryPostLike;
+package angel.service.entrypostlike;
 
 public class EntryPostLike {
 	public String likeAt;
