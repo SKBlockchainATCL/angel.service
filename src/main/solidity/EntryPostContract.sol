@@ -12,7 +12,6 @@ contract EntryPostContract {
         uint256 likes;
         bytes32 serviceProgramId;
         bytes32 userId;
-        
     }
     
     mapping(bytes32 => EntryPost) entryPosts;
@@ -25,7 +24,8 @@ contract EntryPostContract {
             , bytes32 
             , uint256 
             , bytes32 
-            , bytes32 ) {
+            , bytes32 
+            ) {
         EntryPost memory entry = entryPosts[hashId];
         
         return ( entry.contentsId
@@ -35,11 +35,12 @@ contract EntryPostContract {
                 ,entry.postedAt
                 ,entry.likes
                 ,entry.serviceProgramId
-                ,entry.userId);
+                ,entry.userId
+                );
         
     }
     
-   function setEntryPost(bytes32 id,
+   function setEntryPost(bytes32 hashId,
         bytes32 contentsId,
         bytes32 photoId1,
         bytes32 photoId2,
@@ -47,7 +48,8 @@ contract EntryPostContract {
         bytes32 postedAt,
         uint256 likes,
         bytes32 serviceProgramId,
-        bytes32 userId) payable public {
+        bytes32 userId
+        ) public {
 
         EntryPost memory entryPost;
         entryPost.contentsId = contentsId;
@@ -59,7 +61,7 @@ contract EntryPostContract {
         entryPost.serviceProgramId = serviceProgramId;
         entryPost.userId = userId;
         
-        entryPosts[id] = entryPost;
+        entryPosts[hashId] = entryPost;
         
     }
 }

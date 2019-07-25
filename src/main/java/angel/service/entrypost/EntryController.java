@@ -22,7 +22,7 @@ import reactor.core.publisher.Flux;
 public class EntryController {
 	
 	@Autowired
-	private EntryPostService entryPostService;
+	private EntryPostServiceImpl entryPostService;
 	//service/entryPosts/belongTo/{userId}?from={from}&to={to}&pageSize={size}&pageNo={no}&sort={fields}
 	//service/entryPosts/belongToMe
 	@PostMapping(value = "/entryPosts/belongTo/{userId}")
