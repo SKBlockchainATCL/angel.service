@@ -8,9 +8,9 @@
    <property name="_LOG_FILE_NAME" value="${log.file.name:-logback}" /> <!-- excluding path and extension -->
    <property name="_LOG_TIMEZONE" value="${log.timezone:-Asia/Seoul}"/>
    <property name="_LOG_PID" value="${log.pid:-false}" />
-   <property name="_LOG_LEVEL_ROOT" value="${log.level.root:-${log.level.default:-INFO}}"/>
-   <property name="_LOG_LEVEL_SPRING" value="${log.level.spring:-${log.level.default:-WARN}}"/>
-   <property name="_LOG_LEVEL_MYBATIS" value="${log.level.mybatis:-${log.level.default:-INFO}}"/>
+   <property name="_LOG_LEVEL_ROOT" value="${log.level.root:-${log.level.default:DEBUG}}"/>
+   <property name="_LOG_LEVEL_SPRING" value="${log.level.spring:-${log.level.default:-DEBUG}}"/>
+   <property name="_LOG_LEVEL_MYBATIS" value="${log.level.mybatis:-${log.level.default:-DEBUG}}"/>
    <property name="_LOG_LEVEL_JETTY" value="${log.level.jetty:-${log.level.default:-WARN}}" />
 
    <if condition='property("_LOG_PID").trim().equals("true")'>

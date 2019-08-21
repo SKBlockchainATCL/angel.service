@@ -16,7 +16,7 @@ contract EntryPostContract {
     
     mapping(bytes32 => EntryPost) entryPosts;
     
-    function getEntryPost(bytes32  hashId) view public 
+    function getEntryPost(bytes32  hashId) view external 
     returns( bytes32 
             , bytes32 
             , bytes32 

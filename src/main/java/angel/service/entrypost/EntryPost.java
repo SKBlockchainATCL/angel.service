@@ -1,8 +1,16 @@
 package angel.service.entrypost;
 
+import java.math.BigInteger;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
+//bytes32 contentsId;
+//bytes32 photoId1;
+//bytes32 photoId2;
+//bytes32 photoId3;
+//bytes32 postedAt;
+//uint256 likes;
+//bytes32 serviceProgramId;
+//bytes32 userId;
 @Document
 public class EntryPost {
 	public String id;
@@ -11,14 +19,14 @@ public class EntryPost {
 	public String photo2;
 	public String photo3;
 	public String postedAt;
-	public int likes;
-	public int serviceProgramId;
-	public int userId;
+	public BigInteger likes;
+	public String serviceProgramId;
+	public String userId;
 	
 	public EntryPost() {
 	  
 	}
-	public EntryPost(String id, String contents, String photo1, String photo2, String photo3, String postedAt, int likes, int serviceProgramId, int userId){
+	public EntryPost(String id, String contents, String photo1, String photo2, String photo3, String postedAt, BigInteger likes, String serviceProgramId, String userId){
     super();
     this.id = id;
     this.contents = contents;
@@ -67,22 +75,22 @@ public class EntryPost {
 	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
 	}
-	public int getLikes() {
+	public BigInteger getLikes() {
 		return likes;
 	}
-	public void setLikes(int likes) {
+	public void setLikes(BigInteger likes) {
 		this.likes = likes;
 	}
-	public int getServiceProgramId() {
+	public String getServiceProgramId() {
 		return serviceProgramId;
 	}
-	public void setServiceProgramId(int serviceProgramId) {
+	public void setServiceProgramId(String serviceProgramId) {
 		serviceProgramId = serviceProgramId;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 	  this.userId = userId;
 	}
 	

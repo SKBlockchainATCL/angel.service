@@ -1,49 +1,43 @@
 package angel.service;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
 import angel.service.jsa.EntryPostContract;
-import angel.service.program.ServiceProgramController;
-import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
 
 @SpringBootApplication
 // @EnableSwagger2
-@ComponentScan(basePackageClasses = {ServiceProgramController.class})
-@Import({BeanValidatorPluginsConfiguration.class, 
-  RedisConfig.class})
 public class Application{
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+  
   public static void main(String[] args){
     // TODO Auto-generated method stub
     SpringApplication.run(Application.class, args);
   }
-
-  @Bean
-  public Docket restApi(){
-
-    return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
-        .directModelSubstitute(LocalDate.class, String.class);
-  }
+  
+//  @PostConstruct
+//  public void initailizeTestData() {
+//    Web3j web3j = initailizeWeb3();
+//    //entryPostService.
+//  }
+//
+//  @Bean
+//  public Docket restApi(){
+//
+//    return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
+//        .directModelSubstitute(LocalDate.class, String.class);
+//  }
 
   @Value("eth.myserver.url")
   private String ethClientUrl;
@@ -98,5 +92,29 @@ public class Application{
 
     return entryPostContract;
   }
+  private int maxUploadSizeInMb = 5 * 1024 * 1024; // 5 MB
+
+//  @Bean(name = "multipartResolver")
+//  public CommonsMultipartResolver multipartResolver() {
+//      CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//      multipartResolver.setMaxUploadSize(100000);
+//      return multipartResolver;
+//  }
+//
+//  @Bean
+//  public MultipartResolver multipartResolver() {
+//  org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+//  multipartResolver.setMaxUploadSize(512000000);
+//  return multipartResolver;
+//  }
+//  @Bean
+//  public MultipartResolver multipartResolver() {
+//
+//      CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+//      cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
+//      cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); //bytes
+//      return cmr;
+//
+//  }
 
 }

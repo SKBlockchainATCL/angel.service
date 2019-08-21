@@ -2,8 +2,8 @@ CVS/
 .svn/
 /.idea/
 /bin/
-/target/
 /build/
+/target/**/
 /output/
 /Debug/
 /Release/

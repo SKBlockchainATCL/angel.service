@@ -20,7 +20,7 @@ public interface EntryPostRepository extends ReactiveMongoRepository<EntryPost, 
 
   Flux<EntryPost> findAllByUserId(final String userId);
   
-  Flux<EntryPost> findAllByHashId(final String hashId, Sort sort);
+  //Flux<EntryPost> findAllByHashId(final String hashId, Sort sort);
 
 }
 
