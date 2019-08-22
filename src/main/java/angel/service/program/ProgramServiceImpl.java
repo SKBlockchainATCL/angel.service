@@ -13,21 +13,21 @@ import javax.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServiceProgramServiceImpl implements ServiceProgramService{
+public class ProgramServiceImpl implements ProgramService{
 
 
   @Override
-  public ServiceProgramValue findServiceProgramById(
+  public ProgramValue findServiceProgramById(
     @NotBlank String id, 
-    @Nullable ServiceProgramStatus[] statuses){
+    @Nullable ProgramStatus[] statuses){
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public List<ServiceProgramValue> findServicePrograms(
+  public List<ProgramValue> findServicePrograms(
     String titleSearchKeyword, 
-    ServiceProgramStatus[] statuses, 
+    ProgramStatus[] statuses, 
     LocalDate startAfter, 
     LocalDate startBefore,
     @Positive int pageSize, 
@@ -37,10 +37,10 @@ public class ServiceProgramServiceImpl implements ServiceProgramService{
   }
 
   @Override
-  public List<ServiceProgramValue> findServiceProgramsByCoordinator(
+  public List<ProgramValue> findServiceProgramsByCoordinator(
     @NotBlank String coordinatorId, 
     String titleSearchKeyword, 
-    ServiceProgramStatus[] statuses,
+    ProgramStatus[] statuses,
     LocalDate startAfter, 
     LocalDate startBefore, 
     @Positive int pageSize, 

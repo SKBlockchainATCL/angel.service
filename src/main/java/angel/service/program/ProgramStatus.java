@@ -10,7 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public enum ServiceProgramStatus{
+public enum ProgramStatus{
   
   /**
    * Open for application (applicable) 

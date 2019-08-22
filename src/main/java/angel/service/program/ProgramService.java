@@ -18,26 +18,26 @@ import org.springframework.stereotype.Service;
 @Service
 @ParametersAreNonnullByDefault
 @ThreadSafe
-public interface ServiceProgramService{
+public interface ProgramService{
   
   
-  ServiceProgramValue findServiceProgramById(
+  ProgramValue findServiceProgramById(
       @NotBlank String id,
-      @Nullable ServiceProgramStatus[] statuses
+      @Nullable ProgramStatus[] statuses
   );
   
-  List<ServiceProgramValue> findServicePrograms(
+  List<ProgramValue> findServicePrograms(
       @Nullable String titleSearchKeyword,
-      @Nullable ServiceProgramStatus[] statuses,
+      @Nullable ProgramStatus[] statuses,
       @Nullable LocalDate startAfter,
       @Nullable LocalDate startBefore,
       @Nonnull @Positive int pageSize,
       @Nonnull @Positive int pageNo);
 
-  List<ServiceProgramValue> findServiceProgramsByCoordinator(
+  List<ProgramValue> findServiceProgramsByCoordinator(
       @NotBlank String coordinatorId,
       @Nullable String titleSearchKeyword,
-      @Nullable ServiceProgramStatus[] statuses,
+      @Nullable ProgramStatus[] statuses,
       @Nullable LocalDate startAfter,
       @Nullable LocalDate startBefore,
       @Nonnull @Positive int pageSize,

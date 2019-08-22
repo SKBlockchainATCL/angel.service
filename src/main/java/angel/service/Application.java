@@ -16,7 +16,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
 import angel.service.jsa.EntryPostContract;
-import angel.service.program.ServiceProgramController;
+import angel.service.program.ProgramController;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -26,7 +26,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
 // @EnableSwagger2
-@ComponentScan(basePackageClasses = {ServiceProgramController.class})
+@ComponentScan(basePackageClasses = {ProgramController.class})
 @Import({BeanValidatorPluginsConfiguration.class, 
   RedisConfig.class})
 public class Application{

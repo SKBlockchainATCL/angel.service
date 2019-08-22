@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "ServiceProgram")
-public class ServiceProgramValue{
+public class ProgramValue{
 
   private String id;
   
@@ -15,7 +15,7 @@ public class ServiceProgramValue{
   
   private LocalDate endAt;
   
-  private ServiceProgramStatus status;
+  private ProgramStatus status;
   
   private String details;
   
@@ -46,7 +46,7 @@ public class ServiceProgramValue{
   }
   
   @XmlElement(name = "status")
-  public ServiceProgramStatus getStatus() {
+  public ProgramStatus getStatus() {
     return this.status;
   }
   

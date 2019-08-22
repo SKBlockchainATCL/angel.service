@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ServiceProgramContract{
+public class ProgramContract{
   
   
 }

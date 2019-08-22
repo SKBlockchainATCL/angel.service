@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiParam;
 @Api("'Service Program' API")
 @ParametersAreNonnullByDefault
 @ThreadSafe
-public class ServiceProgramController{
+public class ProgramController{
   
   public static final int PAGE_SIZE_MAX = 20;
   
@@ -47,7 +47,7 @@ public class ServiceProgramController{
   public static final String PAGE_SIZE_DEFAULT_STRING = "5";
   
   //@Autowired
-  private ServiceProgramService service;
+  private ProgramService service;
 
   /**
    * List or search service programs
@@ -57,7 +57,7 @@ public class ServiceProgramController{
    */
   @GetMapping @Nonnull
   @ApiOperation(value="List or search service programs")
-  public List<ServiceProgramValue> findServicePrograms(
+  public List<ProgramValue> findServicePrograms(
     @RequestParam(name = "startAfter", required = false) @Nullable
       @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
       @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
@@ -73,7 +73,7 @@ public class ServiceProgramController{
       @Min(1) int pageNo
   ){
     
-    List<ServiceProgramValue> programs = service.findServicePrograms(
+    List<ProgramValue> programs = service.findServicePrograms(
         title, null, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
@@ -81,7 +81,7 @@ public class ServiceProgramController{
   
   @GetMapping("/open") @Nonnull
   @ApiOperation(value="List or search service programs open but not closed")
-  public List<ServiceProgramValue> findOpenServicePrograms(
+  public List<ProgramValue> findOpenServicePrograms(
     @RequestParam(name = "startAfter", required = false) @Nullable
       @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
       @Pattern(regexp = "\\d{8}") LocalDate startAfter,
@@ -97,8 +97,8 @@ public class ServiceProgramController{
       @Min(1) int pageNo
   ){
     
-    List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.OPEN }, startAfter, startBefore, pageSize, pageNo);
+    List<ProgramValue> programs = service.findServicePrograms(
+        title, new ProgramStatus[] { ProgramStatus.OPEN }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
@@ -106,7 +106,7 @@ public class ServiceProgramController{
   
   @GetMapping("/started") @Nonnull
   @ApiOperation(value="List or search service programs started but not yet ended")
-  public List<ServiceProgramValue> findStartedServicePrograms(
+  public List<ProgramValue> findStartedServicePrograms(
     @RequestParam(name = "startAfter", required = false) @Nullable
       @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
       @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
@@ -121,15 +121,15 @@ public class ServiceProgramController{
     @RequestParam(name = "pageNo", required = false, defaultValue = "1") 
       @Min(1) int pageNo
   ){
-    List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.STARTED }, startAfter, startBefore, pageSize, pageNo);
+    List<ProgramValue> programs = service.findServicePrograms(
+        title, new ProgramStatus[] { ProgramStatus.STARTED }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
   
   @GetMapping("/completed") @Nonnull
   @ApiOperation(value="List or search completed service programs")
-  public List<ServiceProgramValue> findCompletedServicePrograms(
+  public List<ProgramValue> findCompletedServicePrograms(
     @RequestParam(name = "startAfter", required = false) @Nullable
       @ApiParam("service programs start after or at this date : 'yyyyMMdd' format")
       @Pattern(regexp = "[1-9][0-9]{7}") LocalDate startAfter,
@@ -144,15 +144,15 @@ public class ServiceProgramController{
     @RequestParam(name = "pageNo", required = false, defaultValue = "1") 
       @Min(1) int pageNo
   ){
-    List<ServiceProgramValue> programs = service.findServicePrograms(
-        title, new ServiceProgramStatus[] { ServiceProgramStatus.REVIEWED }, startAfter, startBefore, pageSize, pageNo);
+    List<ProgramValue> programs = service.findServicePrograms(
+        title, new ProgramStatus[] { ProgramStatus.REVIEWED }, startAfter, startBefore, pageSize, pageNo);
     
     return programs;
   }
 
   @GetMapping("/{programId}") @Nullable
   @ApiOperation(value="Find a service program for the specified ID")
-  public ServiceProgramValue findServiceProgramById(
+  public ProgramValue findServiceProgramById(
     @PathVariable(name = "programId", required = true) 
       @ApiParam("Identifier for service program to find") String id){
       
@@ -161,16 +161,16 @@ public class ServiceProgramController{
   
   @GetMapping("/open/{programId}") @Nullable
   @ApiOperation(value="Find a open service program for the specified ID")
-  public ServiceProgramValue findOpenServiceProgramById(    
+  public ProgramValue findOpenServiceProgramById(    
    @PathVariable(name = "programId", required = true) 
       @ApiParam("Identifier for service program to find") String id){
     
-    return service.findServiceProgramById(id, new ServiceProgramStatus[] { ServiceProgramStatus.REVIEWED });
+    return service.findServiceProgramById(id, new ProgramStatus[] { ProgramStatus.REVIEWED });
   }
   
   @GetMapping("/coordinatedBy/{coordinatorId}") @Nonnull
   @ApiOperation(value="List service programs coordinated by a coordinator")
-  public List<ServiceProgramValue> findServiceProgramsByCoordinator(
+  public List<ProgramValue> findServiceProgramsByCoordinator(
     @PathVariable(name = "coordinatorId", required = true)
       @ApiParam("Identifier of coordinator who owned the service programs to list") String coordinatorId,
     @RequestParam(name = "pageSize", required = false, defaultValue = PAGE_SIZE_DEFAULT_STRING)
@@ -179,7 +179,7 @@ public class ServiceProgramController{
       @Min(1) int pageNo
   ){
     
-    List<ServiceProgramValue> programs = service.findServiceProgramsByCoordinator(
+    List<ProgramValue> programs = service.findServiceProgramsByCoordinator(
       coordinatorId, null, null, null, null, 10, 1);  
     
     return programs;
@@ -197,24 +197,24 @@ public class ServiceProgramController{
   
   @PostMapping @Nonnull
   @ApiOperation(value="Add a new service program")
-  public ServiceProgramValue addServiceProgram() {
-    return new ServiceProgramValue();
+  public ProgramValue addServiceProgram() {
+    return new ProgramValue();
   }
 
   @PostMapping("/answering/{requestId}") @Nonnull
   @ApiOperation(value="Add a new service program based on the specified request")
-  public ServiceProgramValue addServiceProgramForRequest() {
-    return new ServiceProgramValue();
+  public ProgramValue addServiceProgramForRequest() {
+    return new ProgramValue();
   }
   
   
   @PutMapping("/{programId}") @Nonnull
   @ApiOperation(value="Update the review of the service program")
-  public ServiceProgramValue updateServiceProgramReview(
+  public ProgramValue updateServiceProgramReview(
     @PathVariable(name = "programId", required = true)
       @ApiParam("Identifier of service program") String programId){
    
-    return new ServiceProgramValue();    
+    return new ProgramValue();    
   }
   
   
