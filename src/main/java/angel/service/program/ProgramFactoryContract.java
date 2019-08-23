@@ -1,9 +1,11 @@
 package angel.service.program;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +41,6 @@ public class ProgramFactoryContract extends AbstractEthereumContract{
   public BigInteger countServicePrograms(@NotBlank final String from) {
     logger.debug("Calling ServiceProgramFactory.countServicePrograms() at {}", this.getAddress());
  
-    Arrays.asList();
     final Function func = new Function("countServicePrograms",
         Arrays.asList(),
         Arrays.asList(new TypeReference<Uint>() {}));
@@ -63,6 +64,13 @@ public class ProgramFactoryContract extends AbstractEthereumContract{
       else throw new RuntimeException(ex);
     }
 
+  }
+  
+  public void addServiceProgram(@NotBlank @Max(32) String title, LocalDate from, LocalDate to) {
+    
+    final Function func = new Function("addServiceProgram", 
+        Arrays.asList(),
+        Arrays.asList(new TypeReference<Uint>() {}));
   }
 
 }
