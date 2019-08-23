@@ -2,6 +2,12 @@ package angel.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import javax.annotation.Nonnull;
+import javax.annotation.WillNotClose;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +21,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
-import angel.service.jsa.EntryPostContract;
 import angel.service.program.ProgramController;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
@@ -44,59 +49,37 @@ public class Application{
     return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
         .directModelSubstitute(LocalDate.class, String.class);
   }
-
-  @Value("eth.myserver.url")
-  private String ethClientUrl;
-
+  
+  
   @Bean
-  public Web3j initailizeWeb3(){
-
-    Web3j web3j = null;
-
-    try{
-      // We start by creating a new web3j instance to connect to remote nodes on
-      // the network.
-      // Note: if using web3j Android, use Web3jFactory.build(...
-      // other network
-      // example - Web3j web3j = Web3j.build(new
-      // HttpService("https://rinkeby.infura.io/<your token>")); // FIXME:
-      web3j = Web3j.build(new HttpService("http://127.0.0.1:7545"));
-
-      logger.info("Connected to Ethereum client version: " + web3j.web3ClientVersion().send().getWeb3ClientVersion());
-    } catch(Throwable ex){
-      logger.error("Fail to connect to Ethereum node", ex);
-    }
-    return web3j;
+  public Web3j ethereum(@Value("${ethereum.host}") @NotEmpty String host,
+        @Value("${ethereum.port}") @Positive int port,
+        @Value("${ethereum.netVersion}") @NotEmpty String netVersion) {
+     return this.buildWeb3j("http", host, port, netVersion);
   }
 
-  @Bean
-  public Credentials initializeCredential(){
-    Credentials credentials = Credentials.create("f79ca3575548cac9e94cdf3b811570f9fc67b45e074fab1cc00f51fcde902e5c");
-    logger.info("Credentials loaded");
 
-    return credentials;
+  private Web3j buildWeb3j(@NotEmpty String protocol, @NotEmpty String host, int port, @NotEmpty String netVersion) {
+     Web3j instance = Web3j.build(new HttpService(String.format("%s://%s:%d", protocol, host, port)));
+
+     logger.info("Ethereum connector is created for {}://{}:{}", protocol, host, port);
+
+     try {
+       validateEthereumNetVersion(instance, netVersion);
+       logger.info("Successfully validate the network ID of the specified Ethereum at {}://{}:{}", protocol, host, port);
+     } catch(Exception ex) {
+       logger.warn(String.format("Fail to validate network ID of the specified Ethereum at %s://%s:%d", protocol, host, port), ex);
+     }
+
+     return instance;
   }
 
-  // ContractGasProvider contractGasProvider = new DefaultGasProvider();
-  @Bean
-  public ContractGasProvider initializeGasProvider(){
+  private void validateEthereumNetVersion(@Nonnull @WillNotClose Web3j ethereum, @Nonnull String ver) throws Exception{
+     if (ethereum == null) throw new RuntimeException("...");
 
-    return new DefaultGasProvider();
-  }
+     String ver1 = ethereum.netVersion().send().getNetVersion();
 
-  @Bean
-  public EntryPostContract initailizeContracts(){
-
-    EntryPostContract entryPostContract = null;
-
-    try{
-      entryPostContract = EntryPostContract.deploy(initailizeWeb3(), initializeCredential(), initializeGasProvider()).send();
-      logger.info("Successfully initialized contracts.");
-    } catch(Exception ex){
-      logger.error("Fail to initialize contracts.", ex);
-    }
-
-    return entryPostContract;
+     Validate.isTrue(StringUtils.equals(ver1, ver));
   }
 
 }

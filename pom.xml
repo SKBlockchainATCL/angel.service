@@ -42,6 +42,7 @@
     <slf4j.version>1.7.26</slf4j.version>
     <logback.version>1.2.3</logback.version>
     <junit.version>4.12</junit.version>
+    <junit5.version>5.5.1</junit5.version>
     <testng.version>6.9.10</testng.version>
     <mockito.version>2.6.9</mockito.version>
     <commons.lang3.version>3.9</commons.lang3.version>
@@ -652,10 +653,13 @@
       <artifactId>janino</artifactId>
       <version>2.7.8</version>
     </dependency>
+    <!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine/5.5.1 -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <!-- 'junit-jupiter-engine' depends on 'junit-jupiter-api' -->
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit5.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -681,10 +685,7 @@
       <artifactId>config</artifactId>
       <version>${typesafe-config.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webflux</artifactId>
@@ -706,6 +707,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.swagger.core.v3</groupId>
@@ -755,7 +762,7 @@
     <dependency>
       <groupId>org.web3j</groupId>
       <artifactId>web3j-maven-plugin</artifactId>
-      <version>${web3j.version}</version>
+      <version>${web3j-maven-plugin.version}</version>
     </dependency>
   </dependencies>
 </project>
