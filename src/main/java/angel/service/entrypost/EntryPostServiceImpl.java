@@ -1,11 +1,11 @@
 package angel.service.entrypost;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,15 +13,12 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple8;
 import angel.service.jsa.EntryPostContract;
-import io.ipfs.api.IPFS;
-import io.ipfs.api.MerkleNode;
-import io.ipfs.api.NamedStreamable;
-import io.ipfs.multihash.Multihash;
 import reactor.core.publisher.Flux;
 
 //retrieve - select - find
@@ -44,20 +41,62 @@ public class EntryPostServiceImpl implements EntryPostService{
   /**
    * 
    */
-  public Flux<EntryPost> retrieveEntryPost(@NotNull String userId, String from, String to, int pageSize, int pageNo, String sortFields){
+  public Flux<ArrayList<EntryPost>> retrieveEntryPost(@NotNull String userId, String from, String to, int pageSize, int pageNo, String sortFields){
 
-    Flux<EntryPost> entryPost = null;
-    RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>> rpcCall = null;
-
+    ArrayList<EntryPost> entryArr = new ArrayList<EntryPost>();
+    EntryPost entryPost = null;
+    RemoteCall<BigInteger> rpcCall1 = null;
+    RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>> rpcCall2 = null;
+    Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]> RpcResult = null;
     // lamda식 내부의 변수범위 : 참고(https://xxxelppa.tistory.com/49)
     // lamda 식이 final인이뉴는 함수형 interface기 때문인데 관련변수는 static final로 취급된다.
     try{
 
       // 01. ipfs 에서 파일 조회
-      IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
+      //IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
 
       if(from.equals("lastest")){
         // indexing
+        rpcCall1 = entryPostContract.getEntryPostLengthByUser(stringToBytes32(userId));
+        BigInteger bi = rpcCall1.send();
+        for(int i = 0; BigInteger.valueOf(i).compareTo(bi) < 0; i++) {
+          rpcCall2 = entryPostContract.getEntryPost(stringToBytes32(userId), BigInteger.valueOf(i));
+          //rpcCall2.send();
+          RpcResult = rpcCall2.send();
+//          return ( entry.contentsId
+//              ,entry.photoId1
+//              ,entry.photoId2
+//              ,entry.photoId3
+//              ,entry.postedAt
+//              ,entry.likes
+//              ,entry.serviceProgramId
+//              ,entry.userId
+          
+          //entrypost object 
+//          public String id;
+//          public String contents;
+//          public String photo1;
+//          public String photo2;
+//          public String photo3;
+//          public String postedAt;
+//          public BigInteger likes;
+//          public String serviceProgramId;
+//          public String userId;
+          new String(RpcResult.getValue1());
+          entryPost = new EntryPost("", 
+              new String(RpcResult.getValue1()), 
+              new String(RpcResult.getValue2()), 
+              new String(RpcResult.getValue3()),
+              new String(RpcResult.getValue4()), 
+              new String(RpcResult.getValue5()), 
+              RpcResult.getValue6(), 
+              new String(RpcResult.getValue7()),
+              new String(RpcResult.getValue8()));
+          
+          entryArr.add(entryPost);
+        }
+        
+
 
       } else{
 
@@ -67,22 +106,20 @@ public class EntryPostServiceImpl implements EntryPostService{
       // String hashId =
       // "38375179a4d41165106b38eb404202c0dc7364fb31f9bb132b9881b1cacc2ef2";//Sha256
       //
-      rpcCall = entryPostContract.getEntryPost(userId.getBytes());
+      //rpcCall = entryPostContract.getEntryPost(userId.getBytes());
 
-      Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]> RpcResult = rpcCall.send();
+      //Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]> RpcResult = rpcCall.send();
 
-      entryPost = Flux.just(new EntryPost("", RpcResult.getValue1().toString(), RpcResult.getValue2().toString(), RpcResult.getValue3().toString(),
-          RpcResult.getValue4().toString(), RpcResult.getValue5().toString(), RpcResult.getValue6(), RpcResult.getValue7().toString(),
-          RpcResult.getValue8().toString()));
 
-      Multihash filePointer = Multihash.fromBase58("QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB");
-      byte[] fileContents = ipfs.cat(filePointer);
+
+      //Multihash filePointer = Multihash.fromBase58("QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB");
+      //byte[] fileContents = ipfs.cat(filePointer);
 
     } catch(Exception e){
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    return entryPost;
+    return Flux.just(entryArr);
   }
 
   /**
@@ -103,7 +140,7 @@ public class EntryPostServiceImpl implements EntryPostService{
   // uint256 likes,
   // bytes32 serviceProgramId,
   // bytes32 userId
-  public Flux<EntryPost> createEntryPost(String userId, String photoHashId1, String photoHashId2, String photoHashId3, String serviceProgramId){
+  public Flux<EntryPost> createEntryPost(String id, String userId, String filepath, String photoHashId2, String photoHashId3, String serviceProgramId){
 
     Flux<EntryPost> entryPost = null;
     // RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger,
@@ -120,24 +157,32 @@ public class EntryPostServiceImpl implements EntryPostService{
       BigInteger likes = BigInteger.valueOf(0); // 0으로 세팅
 
       // IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
-      IPFS ipfs = new IPFS("/ip4/104.236.176.52/tcp/4001/ipfs/qmsolnsgccfuzqjzradhn95w2crsfmzutddwp8hxahca9z");
-      ipfs.refs.local();
+      //IPFS ipfs = new IPFS("/ip4/104.236.176.52/tcp/4001/ipfs/qmsolnsgccfuzqjzradhn95w2crsfmzutddwp8hxahca9z");
+      //ipfs.refs.local();
       
       File path = new File(".");
       System.out.println(path.getAbsolutePath());
       
-      NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper("hello.txt", "G'day world! IPFS rocks!".getBytes());
-      MerkleNode addResult = ipfs.add(file).get(0);
+      //NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper("hello.txt", "G'day world! IPFS rocks!".getBytes());
+      //MerkleNode addResult = ipfs.add(file).get(0);
       // 파일명가져오
-      addResult.name.get();
+      //addResult.name.get();
       // hash 값 - 조회시 전달필
-      addResult.hash.toBase58();
+      //addResult.hash.toBase58();
       // create redis Data
       // String hashId = "";
       // create smart contract data
       //Image path
-      RemoteCall<TransactionReceipt> rpcCall = entryPostContract.setEntryPost("test".getBytes(), contentsId.getBytes(), "/Users/skyang/git/angel.service/../t.jpg".getBytes(),//addResult.name.get().getBytes(),
-          "".getBytes(), "".getBytes(), postedAt.getBytes(), likes, serviceProgramId.getBytes(), userId.getBytes());
+      RemoteCall<TransactionReceipt> rpcCall = entryPostContract.setEntryPost(
+          stringToBytes32(contentsId),
+          stringToBytes32(filepath),
+          //addResult.name.get().getBytes(),
+          stringToBytes32(""),
+          stringToBytes32(""),
+          stringToBytes32(postedAt),
+          likes, 
+          stringToBytes32(serviceProgramId), 
+          stringToBytes32(userId));
 
       TransactionReceipt tR = rpcCall.send();
       List<Log> log = tR.getLogs();
@@ -148,6 +193,13 @@ public class EntryPostServiceImpl implements EntryPostService{
     }
     return entryPost;
   }
+  
+  public static byte[] stringToBytes32(String string) {
+    byte[] byteValue = string.getBytes();
+    byte[] byteValueLen32 = new byte[32];
+    System.arraycopy(byteValue, 0, byteValueLen32, 0, byteValue.length);
+    return new Bytes32(byteValueLen32).getValue();
+}
 
   public String uploadImages(byte[] bytes){
     // TODO Auto-generated method stub

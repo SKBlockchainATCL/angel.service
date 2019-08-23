@@ -29,9 +29,11 @@ import org.web3j.tx.gas.ContractGasProvider;
  * <p>Generated with web3j version 4.2.0.
  */
 public class EntryPostContract extends Contract {
-    private static final String BINARY = "608060405234801561001057600080fd5b5061027c806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063a3ba03611461003b578063c889c2f51461008c575b600080fd5b61008a600480360361012081101561005257600080fd5b5080359060208101359060408101359060608101359060808101359060a08101359060c08101359060e08101359061010001356100ea565b005b6100a9600480360360208110156100a257600080fd5b5035610169565b604080519889526020890197909752878701959095526060870193909352608086019190915260a085015260c084015260e083015251908190036101000190f35b6100f2610203565b97885260208089019788526040808a0197885260608a0196875260808a0195865260a08a0194855260c08a0193845260e08a0192835260009a8b52908a9052909820965187559451600187015592516002860155905160038501555160048401555160058301555160068201559051600790910155565b60008060008060008060008061017d610203565b50505060009687525050506020848152604094859020855161010081018752815480825260018301549382018490526002830154978201889052600383015460608301819052600484015460808401819052600585015460a08501819052600686015460c0860181905260079096015460e0909501859052929a95999850909650945092565b6040805161010081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c0810182905260e08101919091529056fea265627a7a723058201d0e7102eb129c7676c35b592364657606dd059f0f20b6738d5e77c96033bb5c64736f6c63430005090032";
+    private static final String BINARY = "608060405234801561001057600080fd5b5061030d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80634a5b987214610046578063d448bae314610090578063db90581d146100bf575b600080fd5b61008e600480360361010081101561005d57600080fd5b5080359060208101359060408101359060608101359060808101359060a08101359060c08101359060e00135610123565b005b6100ad600480360360208110156100a657600080fd5b50356101b9565b60408051918252519081900360200190f35b6100e2600480360360408110156100d557600080fd5b50803590602001356101cb565b604080519889526020890197909752878701959095526060870193909352608086019190915260a085015260c084015260e083015251908190036101000190f35b61012b610294565b97885260208089019788526040808a0197885260608a0196875260808a0195865260a08a0194855260c08a0193845260e08a018381526000938452838352908320805460018181018355918552929093209951600890920290990190815596519087015593516002860155915160038501555160048401555160058301555160068201559051600790910155565b60009081526020819052604090205490565b6000806000806000806000806101df610294565b60008b815260208190526040902080548b9081106101f957fe5b600091825260209182902060408051610100810182526008909302909101805480845260018201549484018590526002820154928401839052600382015460608501819052600483015460808601819052600584015460a08701819052600685015460c0880181905260079095015460e0909701879052929f50959d50929b5091995092975095509093509150509295985092959890939650565b6040805161010081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c0810182905260e08101919091529056fea265627a7a72305820c1bb9cdc06bde500565c5dc5a083b52c0848e7edad5d4306569457d12aa5b1fa64736f6c63430005090032";
 
     public static final String FUNC_SETENTRYPOST = "setEntryPost";
+
+    public static final String FUNC_GETENTRYPOSTLENGTHBYUSER = "getEntryPostLengthByUser";
 
     public static final String FUNC_GETENTRYPOST = "getEntryPost";
 
@@ -53,25 +55,32 @@ public class EntryPostContract extends Contract {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteCall<TransactionReceipt> setEntryPost(byte[] hashId, byte[] contentsId, byte[] photoId1, byte[] photoId2, byte[] photoId3, byte[] postedAt, BigInteger likes, byte[] serviceProgramId, byte[] userId) {
+    public RemoteCall<TransactionReceipt> setEntryPost(byte[] _contentsId, byte[] _photoId1, byte[] _photoId2, byte[] _photoId3, byte[] _postedAt, BigInteger _likes, byte[] _serviceProgramId, byte[] _userId) {
         final Function function = new Function(
                 FUNC_SETENTRYPOST, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Bytes32(hashId), 
-                new org.web3j.abi.datatypes.generated.Bytes32(contentsId), 
-                new org.web3j.abi.datatypes.generated.Bytes32(photoId1), 
-                new org.web3j.abi.datatypes.generated.Bytes32(photoId2), 
-                new org.web3j.abi.datatypes.generated.Bytes32(photoId3), 
-                new org.web3j.abi.datatypes.generated.Bytes32(postedAt), 
-                new org.web3j.abi.datatypes.generated.Uint256(likes), 
-                new org.web3j.abi.datatypes.generated.Bytes32(serviceProgramId), 
-                new org.web3j.abi.datatypes.generated.Bytes32(userId)), 
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Bytes32(_contentsId), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_photoId1), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_photoId2), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_photoId3), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_postedAt), 
+                new org.web3j.abi.datatypes.generated.Uint256(_likes), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_serviceProgramId), 
+                new org.web3j.abi.datatypes.generated.Bytes32(_userId)), 
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>> getEntryPost(byte[] hashId) {
+    public RemoteCall<BigInteger> getEntryPostLengthByUser(byte[] _userId) {
+        final Function function = new Function(FUNC_GETENTRYPOSTLENGTHBYUSER, 
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Bytes32(_userId)), 
+                Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
+        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
+    }
+
+    public RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>> getEntryPost(byte[] _user, BigInteger _idx) {
         final Function function = new Function(FUNC_GETENTRYPOST, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Bytes32(hashId)), 
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Bytes32(_user), 
+                new org.web3j.abi.datatypes.generated.Uint256(_idx)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Bytes32>() {}));
         return new RemoteCall<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>>(
                 new Callable<Tuple8<byte[], byte[], byte[], byte[], byte[], BigInteger, byte[], byte[]>>() {
