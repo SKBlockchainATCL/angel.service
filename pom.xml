@@ -759,10 +759,11 @@
       <artifactId>pantheon</artifactId>
       <version>${web3j.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.web3j</groupId>
-      <artifactId>web3j-maven-plugin</artifactId>
-      <version>${web3j-maven-plugin.version}</version>
-    </dependency>
+    <!-- just for plugin, not for dependency -->
+<!--     <dependency> -->
+<!--       <groupId>org.web3j</groupId> -->
+<!--       <artifactId>web3j-maven-plugin</artifactId> -->
+<!--       <version>${web3j-maven-plugin.version}</version> -->
+<!--     </dependency> -->
   </dependencies>
 </project>
